@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madhuvan Maintenance</title>
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/madhuvan-chs.appspot.com/o/M1%20Logo.png?alt=media&token=08668979-b421-4d75-9ac7-11a11285adbd">
+</head>
+<body>
+    <center>
+<center style="margin:20px;background-color: lightgray; width: 75%;border-radius: 10px;padding: 10px;">
+    <h1>Pay Maintenance Bill</h1>
+    <hr>
+    <h2 id="pay"></h2> 
+    <label for="wing">Wing : </label>
+    <select name="wing" required class="form-control"><option>A</option><option>B</option><option>C</option></select>
+    <label for="flatno">Flat Number : </label>
+    <input name="flatno" class="form-control" type="number" maxlength="3" required placeholder="Flat Number">
+    <hr>
+<button type="submit" id="rzp-button1" class="btn btn-primary">Proceed To Pay</button>
+</center>
+</center>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var link = window.location.href; console.log(link);
+var amt = link.replace("https://7a8g1fnaqma7nw7pzhfqog-on.drv.tw/Maintenance%20Payment/maintenance-payment.html?amt=", "");
+console.log(amt);document.getElementById("pay").innerHTML = "Pay ₹" + amt + " to Madhuvan CHS";</script>
+<script>var options = {    
+    "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard   
+     "amount": amt , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise    
+    "currency": "INR",    
+    "name": "Madhuvan CHS",   
+     "description": "Pay Maintenance",   
+     "image": "https://firebasestorage.googleapis.com/v0/b/madhuvan-chs.appspot.com/o/M1%20Logo.png?alt=media&token=08668979-b421-4d75-9ac7-11a11285adbd",    
+    "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1    
+    "handler": function (response){       
+         alert(response.razorpay_payment_id);        
+        alert(response.razorpay_order_id);        
+        alert(response.razorpay_signature)    },    
+        "prefill": {        
+            "name": "",        
+            "email": "",       
+             "contact": ""    },    
+             "notes": {        
+                 "address": "Razorpay Corporate Office"    
+                 },    "theme": {        "color": "black"    }};
+                 var rzp1 = new Razorpay(options);
+                 rzp1.on('payment.failed', function (response){
+                     alert(response.error.code);       
+                      alert(response.error.description);        
+                 alert(response.error.source);        
+                 alert(response.error.step);        
+                 alert(response.error.reason);        
+                 alert(response.error.metadata.order_id);       
+                  alert(response.error.metadata.payment_id);});
+                  document.getElementById('rzp-button1').onclick = function(e){    rzp1.open();    e.preventDefault();}</script>
